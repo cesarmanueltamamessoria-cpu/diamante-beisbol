@@ -4,6 +4,8 @@ Versión beisbolera de [Copero](https://copero.com.ar/): creás un pelotero de 1
 dónde viene y qué posición juega, y la carrera entera se simula temporada a temporada hasta el
 retiro y la votación al Salón de la Fama.
 
+**▶ Jugar: https://cesarmanueltamamessoria-cpu.github.io/diamante-beisbol/**
+
 Todo corre en el navegador. Sin registro, sin backend, sin dependencias externas.
 
 ## Cómo se abre
@@ -22,7 +24,7 @@ node serve.js
 |---|---|
 | `index.html` | Las cuatro pantallas: inicio, creación, carrera y legado |
 | `css/styles.css` | Todo el diseño; sin frameworks |
-| `js/data.js` | 95 franquicias reales de 15 ligas, 50 países, 11 posiciones, premios |
+| `js/data.js` | 90 franquicias reales de 15 ligas en 10 países, 25 equipos de ligas invernales, 50 nacionalidades, 11 posiciones, premios |
 | `js/engine.js` | Motor: generación de estadísticas, premios, desarrollo, lesiones, valor de mercado, retiro y valoración final |
 | `js/events.js` | Las decisiones: arranque profesional según el país, fichajes, ascensos, cambios de posición, escándalos, despedida |
 | `js/card.js` | Tarjeta de legado dibujada en canvas y resumen de texto |
