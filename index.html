@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DIAMANTE — Simulador de carrera de béisbol</title>
+<meta name="description" content="Creá un pelotero, elegí país y posición, y viví su carrera entera: ligas menores, Grandes Ligas, premios, lesiones y Salón de la Fama. Gratis, sin registro.">
+<meta name="theme-color" content="#0A0C10">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='44' fill='%23f4f1ea'/><path d='M22 18c14 14 14 50 0 64M78 18c-14 14-14 50 0 64' stroke='%23e0384a' stroke-width='6' fill='none'/></svg>">
+</head>
+<body>
+
+<div class="stadium-bg" aria-hidden="true"></div>
+
+<!-- ══════════════════════════════════════════════════ INICIO ══ -->
+<section class="screen is-active" id="scr-home">
+  <div class="home-wrap">
+    <header class="brand">
+      <span class="brand-ball" aria-hidden="true"></span>
+      <span class="brand-name">DIAMANTE</span>
+      <span class="brand-tag">simulador de carrera</span>
+    </header>
+
+    <div class="hero">
+      <p class="hero-kicker">Del primer tryout al Salón de la Fama</p>
+      <h1 class="hero-title">Convertite<br><em>en leyenda</em></h1>
+      <p class="hero-lead">
+        Creás un pelotero, elegís de dónde viene y qué posición juega. A partir de ahí,
+        cada temporada se juega sola: números, premios, lesiones, fichajes y decisiones que
+        no tienen vuelta atrás. Una carrera entera en unos minutos.
+      </p>
+      <button class="btn btn-primary btn-xl" id="btn-start">Crear mi pelotero</button>
+      <p class="hero-note">Sin registro · sin descargas · corre entero en tu navegador</p>
+
+      <ul class="hero-stats">
+        <li><b>95</b><span>franquicias reales</span></li>
+        <li><b>15</b><span>ligas de 9 países</span></li>
+        <li><b>50</b><span>nacionalidades</span></li>
+        <li><b>11</b><span>posiciones</span></li>
+      </ul>
+    </div>
+
+    <div class="how">
+      <article><span class="how-n">01</span><h3>Creá tu jugador</h3><p>Apellido, dorsal, cómo batea, de dónde viene y en qué parte del diamante se planta.</p></article>
+      <article><span class="how-n">02</span><h3>Viví las temporadas</h3><p>La simulación corre sola y se detiene cuando hay algo que decidir: subir, firmar, cambiar de puesto, arriesgar.</p></article>
+      <article><span class="how-n">03</span><h3>Cerrá tu legado</h3><p>Al retirarte se calcula tu valoración, la votación al Salón de la Fama y una tarjeta para compartir.</p></article>
+    </div>
+
+    <footer class="home-foot">
+      Proyecto de ficción y entretenimiento. Los nombres de clubes y ligas son referencias reales
+      usadas de forma descriptiva; esta aplicación no está asociada ni autorizada por ninguna de esas entidades.
+    </footer>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════ CREACIÓN ══ -->
+<section class="screen" id="scr-create">
+  <div class="create-grid">
+
+    <div class="create-main">
+      <nav class="steps" id="steps">
+        <button data-step="0" class="step is-active"><i>1</i><span>Identidad</span></button>
+        <button data-step="1" class="step"><i>2</i><span>Origen</span></button>
+        <button data-step="2" class="step"><i>3</i><span>Posición</span></button>
+        <button data-step="3" class="step"><i>4</i><span>Ritmo</span></button>
+      </nav>
+
+      <!-- Paso 1 -->
+      <div class="pane is-active" data-pane="0">
+        <h2 class="pane-title">¿Quién sos en el campo?</h2>
+        <p class="pane-sub">El apellido va en la espalda y el dorsal se queda para siempre.</p>
+
+        <div class="field">
+          <label for="in-name">Apellido</label>
+          <input id="in-name" type="text" maxlength="14" autocomplete="off" spellcheck="false" placeholder="RAMÍREZ">
+        </div>
+
+        <div class="field">
+          <label for="in-num">Dorsal</label>
+          <div class="num-row">
+            <input id="in-num" type="number" min="0" max="99" value="27">
+            <div class="num-quick" id="num-quick"></div>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Batea</label>
+            <div class="seg" id="seg-bats">
+              <button data-v="D" class="is-on">Derecha</button>
+              <button data-v="Z">Izquierda</button>
+              <button data-v="A">Ambidiestro</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>Lanza</label>
+            <div class="seg" id="seg-throws">
+              <button data-v="D" class="is-on">Derecha</button>
+              <button data-v="Z">Izquierda</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 2 -->
+      <div class="pane" data-pane="1">
+        <h2 class="pane-title">¿De dónde salís?</h2>
+        <p class="pane-sub">El país define cómo entrás al profesionalismo y cuánta materia prima traés.</p>
+        <input id="in-country-search" class="search" type="search" placeholder="Buscar país…" autocomplete="off">
+        <div class="country-grid" id="country-grid"></div>
+      </div>
+
+      <!-- Paso 3 -->
+      <div class="pane" data-pane="2">
+        <h2 class="pane-title">¿Dónde te parás?</h2>
+        <p class="pane-sub">Cada posición puntúa distinto: no se mide igual a un receptor que a un designado.</p>
+        <div class="diamond-wrap">
+          <div class="diamond" id="diamond"></div>
+          <div class="pos-info" id="pos-info">
+            <h4>Elegí una posición</h4>
+            <p>Tocá el diamante para ver qué exige cada puesto.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Paso 4 -->
+      <div class="pane" data-pane="3">
+        <h2 class="pane-title">¿Cuánto querés decidir?</h2>
+        <p class="pane-sub">Marca cada cuántas temporadas la simulación se detiene para preguntarte.</p>
+        <div class="pace-grid" id="pace-grid"></div>
+      </div>
+
+      <div class="create-nav">
+        <button class="btn btn-ghost" id="btn-back">Atrás</button>
+        <button class="btn btn-primary" id="btn-next">Continuar</button>
+      </div>
+    </div>
+
+    <aside class="create-side">
+      <div class="jersey" id="jersey">
+        <div class="jersey-num" id="jersey-num">27</div>
+        <div class="jersey-name" id="jersey-name">RAMÍREZ</div>
+        <div class="jersey-meta">
+          <span class="flagchip" id="jersey-flag"></span>
+          <span id="jersey-country">Elegí país</span>
+          <span class="dot">·</span>
+          <span id="jersey-pos">—</span>
+        </div>
+        <div class="jersey-hands" id="jersey-hands">Batea derecha · Lanza derecha</div>
+      </div>
+      <div class="side-note">
+        <b>16 años.</b> Todo lo demás está por escribirse: el techo de tu jugador es oculto
+        y solo se descubre jugando.
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ CARRERA ══ -->
+<section class="screen" id="scr-career">
+  <header class="hud">
+    <div class="hud-player">
+      <span class="hud-num" id="hud-num">27</span>
+      <div class="hud-id">
+        <b id="hud-name">RAMÍREZ</b>
+        <span id="hud-sub">16 años · SS · Sin equipo</span>
+      </div>
+    </div>
+    <div class="hud-ovr">
+      <div class="ovr-ring" id="ovr-ring"><span id="hud-ovr">50</span></div>
+      <small>OVR</small>
+    </div>
+    <div class="hud-year">
+      <b id="hud-season">2026</b>
+      <small>temporada</small>
+    </div>
+    <button class="btn btn-ghost btn-sm" id="btn-quit">Abandonar</button>
+  </header>
+
+  <div class="career-grid">
+    <aside class="col-left">
+      <div class="card club-card" id="club-card"></div>
+      <div class="card attrs-card">
+        <h4 class="card-h">Atributos</h4>
+        <div id="attrs"></div>
+      </div>
+      <div class="card" id="contract-card"></div>
+    </aside>
+
+    <main class="col-center">
+      <div id="decision-slot"></div>
+      <div id="feed" class="feed"></div>
+    </main>
+
+    <aside class="col-right">
+      <div class="card">
+        <h4 class="card-h">Carrera</h4>
+        <div id="totals"></div>
+      </div>
+      <div class="card">
+        <h4 class="card-h">Palmarés</h4>
+        <div id="palmares" class="palmares"><p class="empty">Todavía sin vitrina.</p></div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="actionbar">
+    <button class="btn btn-primary btn-xl" id="btn-sim">Jugar temporada</button>
+    <span class="actionbar-hint">o pulsá <kbd>Espacio</kbd></span>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ FIN ══ -->
+<section class="screen" id="scr-end">
+  <div class="end-wrap">
+    <div class="end-head">
+      <p class="end-kicker" id="end-kicker">Carrera terminada</p>
+      <h1 class="end-tier" id="end-tier">Leyenda</h1>
+      <p class="end-desc" id="end-desc"></p>
+      <div class="score-bar"><div id="score-fill"></div></div>
+      <p class="end-score"><b id="end-score">0</b> puntos de legado</p>
+    </div>
+
+    <div class="end-cols">
+      <div class="end-card-col">
+        <canvas id="legacy-canvas" width="1080" height="1440"></canvas>
+        <div class="end-actions">
+          <button class="btn btn-primary" id="btn-download">Descargar tarjeta</button>
+          <button class="btn btn-ghost" id="btn-copy">Copiar resumen</button>
+          <button class="btn btn-ghost" id="btn-again">Nueva carrera</button>
+        </div>
+      </div>
+      <div class="end-detail">
+        <div class="card"><h4 class="card-h">Números de por vida</h4><div id="end-totals"></div></div>
+        <div class="card"><h4 class="card-h">Vitrina</h4><div id="end-awards" class="palmares"></div></div>
+        <div class="card"><h4 class="card-h">Salón de la Fama</h4><div id="end-hof"></div></div>
+        <div class="card">
+          <h4 class="card-h">Temporada a temporada</h4>
+          <div class="table-scroll"><table class="seasons-table" id="end-table"></table></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="js/data.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/events.js"></script>
+<script src="js/card.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
